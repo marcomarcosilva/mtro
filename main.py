@@ -10,9 +10,9 @@ s_son = len(data)
 s_beat = int(fs*beat)
 s_sil = s_beat-s_son
 
-print(type(data))
+print(data)
 
 # data = np.random.uniform(-1, 1, fs)
-# v = np.concatenate((data, np.zeros(s_sil), data, np.zeros(s_sil)))
-# print(len(v))
-# sd.play(data, fs, blocking=True)
+v = np.concatenate((data, data, data, data), axis=0)
+print(v)
+sd.play(v, fs, blocking=True)
