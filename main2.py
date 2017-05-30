@@ -7,7 +7,7 @@ import os
 
 CHUNK = 1024
 
-fs, d = wavfile.read('sounds/4d.wav')
+# fs, d = wavfile.read('sounds/4d.wav')
 # first beat
 # wavfile.write('sounds/4dH.wav', fs, 4*d)
 # derivate beat
