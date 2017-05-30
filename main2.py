@@ -12,6 +12,7 @@ CHUNK = 1024
 # wavfile.write('sounds/4dH.wav', fs, 4*d)
 
 wf = wave.open('sounds/4d.wav', 'rb')
+wH = wave.open('sounds/4dH.wav', 'rb')
 p = pyaudio.PyAudio()
 
 stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
@@ -21,6 +22,7 @@ stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
 
 bpm = 120
 beat = 60./bpm  # seconds
+times = 4
 
 fs = wf.getframerate()
 s_son = wf.getnframes()
@@ -29,14 +31,25 @@ s_sil = s_beat-s_son
 
 s = np.zeros(s_sil, dtype=np.int16).tobytes()
 
-data = wf.readframes(CHUNK)
+dataH = wH.readframes(CHUNK)
 try:
-    while data != '':
-        stream.write(data)
-        data = wf.readframes(CHUNK)
-        if wf.tell() == wf.getnframes():
-            wf.rewind()
-            stream.write(s)
+    while True:
+        while dataH != '':
+            stream.write(dataH)
+            if wH.tell() == wH.getnframes():
+                wH.rewind()
+                stream.write(s)
+                # break
+            dataH = wH.readframes(CHUNK)
+        # for i in range(0, times-1):
+        #     data = wf.readframes(CHUNK)
+        #     while data != '':
+        #         stream.write(data)
+        #         if wf.tell() == wf.getnframes():
+        #             wf.rewind()
+        #             stream.write(s)
+        #             break
+        #         data = wf.readframes(CHUNK)
 
 except KeyboardInterrupt:
     stream.stop_stream()
