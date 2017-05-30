@@ -10,9 +10,7 @@ s_son = len(d)
 s_beat = int(fs*beat)
 s_sil = s_beat-s_son
 
-print(d)
 s = np.random.uniform(-1, 1, s_sil).astype(np.int16)
 v = np.concatenate((2*d, s, d, s, d, s, d, s), axis=0)
-print(v)
 while True:
     sd.play(v, fs, blocking=True)
