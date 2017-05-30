@@ -10,8 +10,6 @@ CHUNK = 1024
 # fs, d = wavfile.read('sounds/4d.wav')
 # first beat
 # wavfile.write('sounds/4dH.wav', fs, 4*d)
-# derivate beat
-# wavfile.write('sounds/4dl.wav', fs, d/2)
 
 wf = wave.open('sounds/4d.wav', 'rb')
 p = pyaudio.PyAudio()
@@ -45,5 +43,4 @@ except KeyboardInterrupt:
     stream.close()
     p.terminate()
     # os.remove('sounds/4dH.wav')
-    # os.remove('sounds/4dl.wav')
     print("end")
