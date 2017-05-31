@@ -15,6 +15,7 @@ CHUNK = 1024
 
 wf = wave.open('sounds/4d.wav', 'rb')
 wH = wave.open('sounds/4dH.wav', 'rb')
+wl = wave.open('sounds/4dH.wav', 'rb')
 p = pyaudio.PyAudio()
 
 stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
@@ -24,13 +25,19 @@ stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
 
 bpm = 156
 beat = 60./bpm  # seconds
-times = 1
+times = 4
+sub_times = 2
 
 fs = wf.getframerate()  # sample frame rate
 
 sample_frames = wf.getnframes()  # SOUND frame number
+
 beat_frames = int(fs*beat)  # BEAT frame number
 silence_frames = beat_frames-sample_frames
+
+sub_beat_frames = int(fs*beat/sub_times)  # BEAT frame number
+sub_silence_frames = sub_beat_frames-sample_frames
+
 
 s = np.zeros(silence_frames, dtype=np.int16).tobytes()
 
