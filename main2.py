@@ -20,9 +20,9 @@ stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
                 rate=wf.getframerate(),
                 output=True)
 
-bpm = 120
+bpm = 151
 beat = 60./bpm  # seconds
-times = 4
+times = 3
 
 fs = wf.getframerate()
 s_son = wf.getnframes()
@@ -32,6 +32,7 @@ s_sil = s_beat-s_son
 s = np.zeros(s_sil, dtype=np.int16).tobytes()
 
 dataH = wH.readframes(CHUNK)
+data = wf.readframes(CHUNK)
 try:
     while True:
         while dataH != '':
@@ -39,17 +40,18 @@ try:
             if wH.tell() == wH.getnframes():
                 wH.rewind()
                 stream.write(s)
-                # break
+                dataH = wH.readframes(CHUNK)
+                break
             dataH = wH.readframes(CHUNK)
-        # for i in range(0, times-1):
-        #     data = wf.readframes(CHUNK)
-        #     while data != '':
-        #         stream.write(data)
-        #         if wf.tell() == wf.getnframes():
-        #             wf.rewind()
-        #             stream.write(s)
-        #             break
-        #         data = wf.readframes(CHUNK)
+        for i in range(0, times-1):
+            while data != '':
+                stream.write(data)
+                if wf.tell() == wf.getnframes():
+                    wf.rewind()
+                    stream.write(s)
+                    data = wf.readframes(CHUNK)
+                    break
+                data = wf.readframes(CHUNK)
 
 except KeyboardInterrupt:
     stream.stop_stream()
